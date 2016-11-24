@@ -1,25 +1,41 @@
 var $ = require('check-typeof');
 
-module.exports.format = function (number, decimals, dec_point, thousands_sep) {
+/**
+ * print a number with commas as thousands separators and decimal format
+ * @param   {Number}   number                   parameter to change the format
+ * @param   {Number}   decimals                 decimal limit
+ * @param   {string}   decimalSeparator         decimal seperator format
+ * @param   {string}   numberSeparator          thousands seperator format
+ * @returns {string}                            return a number with seperators
+ */
+module.exports.format = function (number, decimals, decimalSeparator, numberSeparator) {
+
     if ($.isNumber(number)) {
-        var n = !isFinite(+number) ? 0 : +number,
-            prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
-            sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
-            dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
-            toFixedFix = function(n, prec) {
-                var k = Math.pow(10, prec);
-                return Math.round(n * k) / k;
+
+        var num = !isFinite(+number) ? 0 : +number,
+            decimalLimit = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+            separator = ($.isUndefined(numberSeparator)) ? ',' : numberSeparator,
+            decimalChar = ($.isUndefined(decimalSeparator)) ? '.' : decimalSeparator,
+            toFixedNumber = function(num, decimalLimit) {
+                var roundNum = Math.pow(10, decimalLimit);
+                return Math.round(num * roundNum) / roundNum;
             },
-            s = (prec ? toFixedFix(n, prec) : Math.round(n)).toString().split('.');
-        if (s[0].length > 3) {
-            s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+            str = (decimalLimit ? toFixedNumber(num, decimalLimit) : Math.round(num)).toString().split('.');
+
+        if (str[0].length > 3) {
+            str[0] = str[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, separator);
         }
-        if ((s[1] || '').length < prec) {
-            s[1] = s[1] || '';
-            s[1] += new Array(prec - s[1].length + 1).join('0');
+
+        if ((str[1] || '').length < decimalLimit) {
+
+            str[1] = str[1] || '';
+            str[1] += new Array(decimalLimit - str[1].length + 1).join('0');
         }
-        return s.join(dec);
+
+        return str.join(decimalChar);
+
     } else {
         return new Error('Wrong Format!');
     }
 }
+

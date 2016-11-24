@@ -16,13 +16,40 @@ var chai = require('chai'),
 
 
 
-describe('##### Number with comma and decimal #####', function() {
+describe('##### Number Format #####', function() {
 
-    it ('Number format', function () {
+    it ('Number format without decimal', function () {
 
         numbers.forEach (function (number) {
-
             var result = n.format(number);
+            console.log(result);
+            result.should.be.a('string');
+        });
+    });
+
+    it ('Number format with decimal', function () {
+
+        numbers.forEach (function (number) {
+            var result = n.format(number, 2);
+            console.log(result);
+            result.should.be.a('string');
+        });
+    });
+
+    it ('Number format with decimal(comma) and seperator (dot)', function () {
+
+        numbers.forEach (function (number) {
+            var result = n.format(number, 2 , ',' , '.');
+            console.log(result);
+            result.should.be.a('string');
+        });
+    });
+
+    it ('Number format with decimal(dot) and seperator (comma)', function () {
+
+        numbers.forEach (function (number) {
+            var result = n.format(number, 2 , '.' , ',');
+            console.log(result);
             result.should.be.a('string');
         });
     });
