@@ -1,6 +1,6 @@
 {
   "name": "num-ber",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "To print a number with commas as thousands separators and decimal format",
   "main": "index.js",
   "scripts": {
@@ -22,7 +22,7 @@
     "currency",
     "decimal",
     "format",
-    "path"
+    "separators"
   ],
   "author": "Shan Chinnananchi",
   "license": "ISC",
