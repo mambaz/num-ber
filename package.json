@@ -1,7 +1,7 @@
 {
   "name": "num-ber",
-  "version": "0.0.2",
-  "description": "To print a number with commas as thousands separators and decimal format",
+  "version": "0.1.0",
+  "description": "A Node.js package for formatting numbers with commas as thousands separators and enabling decimal formatting. Offers a versatile `format` function allowing customization of decimal limits, decimal separators, and thousands separators for precise number formatting.",
   "main": "index.js",
   "scripts": {
     "test": "mocha"
@@ -10,8 +10,8 @@
     "check-typeof": "0.0.1"
   },
   "devDependencies": {
-    "mocha": "^3.1.2",
-    "chai": "^3.5.0"
+    "chai": "^3.5.0",
+    "mocha": "^10.2.0"
   },
   "repository": {
     "type": "git",

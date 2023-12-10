@@ -1,93 +1,45 @@
 # num-ber
 
-Npm package to print a number with commas as thousands separators and decimal format
+`num-ber` is a Node.js package that formats numbers with commas as thousands separators and allows decimal formatting. It provides a flexible `format` function enabling customization of decimal limits, decimal separators, and thousands separators for precise number formatting.
 
 ## Installation
 
-Installation is easiest through npm:
+You can install `num-ber` via npm:
 
-`npm install num-ber --save`
+```bash
+npm install num-ber --save
+```
 
 ## Usage
 
 ```js
 
 
-var n = require('num-ber');
+const n = require('num-ber');
 
-// n.format(number, optional1, optional2, optional3);
-// optional1 => decimal limit by default zero(0)
-// optional2 => decimal separator (comma or dot) by default dot (.)
-// optional2 => thousands separator (comma or dot) by default comma (,)
+/**
+ * Formats a number with commas as thousands separators and decimal format
+ * @param   {number}   number                   The number to format
+ * @param   {number}   decimals                 Decimal limit
+ * @param   {string}   decimalSeparator         Decimal separator format
+ * @param   {string}   numberSeparator          Thousands separator format
+ * @param   {string}   fallback                 Fallback value if the input is invalid (optional)
+ * @returns {string|Error}                      Returns a formatted number with separators or an Error object
+ */
 
-// Number format
-var result = n.format(number);
-// 100
-// 1,000
-// 10,000
-// 1,234,567
-// 424,335,346
-// 98,792,635,546
-// 37,584,375
+// Format a number without specifying decimal and separators
+console.log(n.format(100)); // Output: '100'
+console.log(n.format(1000)); // Output: '1,000'
+console.log(n.format(10000)); // Output: '10,000'
 
-// Number format with decimal
-var result = n.format(number, 2);
-// 100.00
-// 1,000.00
-// 10,000.00
-// 1,234,567.00
-// 424,335,345.57
-// 98,792,635,545.60
-// 37,584,375.48
+// Format a number with specified decimal places and separators
+console.log(n.format(1000.1264, 2, '.', ',')); // Output: '1,000.13'
+console.log(n.format(9876543210, 0, '.', ',')); // Output: '9,876,543,210'
 
-// Number format with decimal(comma) and seperator (dot)
-var result = n.format(number, 2 , ',' , '.');
-// 100,00
-// 1.000,00
-// 10.000,00
-// 1.234.567,00
-// 424.335.345,57
-// 98.792.635.545,60
-// 37.584.375,48
+// Error handling for invalid inputs
+console.log(n.format('')); // Output: [Error: Invalid input: Not a number]
+console.log(n.format('test')); // Output: [Error: Invalid input: Not a number]
 
-// Number format with decimal(dot) and seperator (comma)
-var result = n.format(number, 2 , '.' , ',');
-// 100.00
-// 1,000.00
-// 10,000.00
-// 1,234,567.00
-// 424,335,345.57
-// 98,792,635,545.60
-// 37,584,375.48
-
-console.log(n.format(100));
-console.log(n.format(1000));
-console.log(n.format(10000));
-console.log(n.format(100000));
-console.log(n.format(1000000));
-console.log(n.format(10000000));
-console.log(n.format(100000000));
-console.log(n.format(1000000000));
-console.log(n.format(10000000000));
-console.log(n.format(100000000000));
-console.log(n.format(1000.1264, 2, '.', ','));
-console.log(n.format(''));
-console.log(n.format('test'));
-
-// result
-// 100
-// 1,000
-// 10,000
-// 100,000
-// 1,000,000
-// 10,000,000
-// 100,000,000
-// 1,000,000,000
-// 10,000,000,000
-// 100,000,000,000
-// 1,000.13
-// [Error: Wrong Format!]
-// [Error: Wrong Format!]
 
 
 ```

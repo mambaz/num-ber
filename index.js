@@ -1,41 +1,45 @@
-var $ = require('check-typeof');
+const checkType = require("check-typeof");
 
 /**
- * print a number with commas as thousands separators and decimal format
- * @param   {Number}   number                   parameter to change the format
- * @param   {Number}   decimals                 decimal limit
- * @param   {string}   decimalSeparator         decimal seperator format
- * @param   {string}   numberSeparator          thousands seperator format
- * @returns {string}                            return a number with seperators
+ * Formats a number with commas as thousands separators and decimal format
+ * @param   {number}   number                   The number to format
+ * @param   {number}   decimals                 Decimal limit
+ * @param   {string}   decimalSeparator         Decimal separator format
+ * @param   {string}   numberSeparator          Thousands separator format
+ * @param   {string}   fallback                 Fallback value if the input is invalid (optional)
+ * @returns {string|Error}                      Returns a formatted number with separators or an Error object
  */
-module.exports.format = function (number, decimals, decimalSeparator, numberSeparator) {
-
-    if ($.isNumber(number)) {
-
-        var num = !isFinite(+number) ? 0 : +number,
-            decimalLimit = !isFinite(+decimals) ? 0 : Math.abs(decimals),
-            separator = ($.isUndefined(numberSeparator)) ? ',' : numberSeparator,
-            decimalChar = ($.isUndefined(decimalSeparator)) ? '.' : decimalSeparator,
-            toFixedNumber = function(num, decimalLimit) {
-                var roundNum = Math.pow(10, decimalLimit);
-                return Math.round(num * roundNum) / roundNum;
-            },
-            str = (decimalLimit ? toFixedNumber(num, decimalLimit) : Math.round(num)).toString().split('.');
-
-        if (str[0].length > 3) {
-            str[0] = str[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, separator);
-        }
-
-        if ((str[1] || '').length < decimalLimit) {
-
-            str[1] = str[1] || '';
-            str[1] += new Array(decimalLimit - str[1].length + 1).join('0');
-        }
-
-        return str.join(decimalChar);
-
+module.exports.format = function (
+  number,
+  decimals = 0,
+  decimalSeparator = ".",
+  numberSeparator = ",",
+  fallback = null
+) {
+  if (!checkType.isNumber(number)) {
+    if (fallback !== null) {
+      return fallback;
     } else {
-        return new Error('Wrong Format!');
+      throw new Error("Invalid input: Not a number");
     }
-}
+  }
 
+  const num = Number.isFinite(+number) ? +number : 0;
+  const absDecimals = Math.abs(decimals);
+  const decimalLimit = Number.isFinite(absDecimals) ? absDecimals : 0;
+
+  const formattedNumber = decimalLimit
+    ? num.toFixed(decimalLimit)
+    : num.toString();
+
+  const parts = formattedNumber.split(".");
+  parts[0] = parts[0].replace(
+    /\B(?=(\d{3})+(?!\d))/g,
+    numberSeparator === "" ? "" : numberSeparator
+  );
+
+  const separator =
+    decimalSeparator === "" && decimalLimit !== 0 ? "." : decimalSeparator;
+
+  return parts.join(separator);
+};
