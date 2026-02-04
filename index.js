@@ -1,5 +1,3 @@
-const checkType = require("check-typeof");
-
 /**
  * Formats a number with commas as thousands separators and decimal format
  * @param   {number}   number                   The number to format
@@ -16,7 +14,7 @@ module.exports.format = function (
   numberSeparator = ",",
   fallback = null
 ) {
-  if (!checkType.isNumber(number)) {
+  if (typeof number !== "number" || !Number.isFinite(number)) {
     if (fallback !== null) {
       return fallback;
     } else {
@@ -24,13 +22,11 @@ module.exports.format = function (
     }
   }
 
-  const num = Number.isFinite(+number) ? +number : 0;
+  const num = number;
   const absDecimals = Math.abs(decimals);
   const decimalLimit = Number.isFinite(absDecimals) ? absDecimals : 0;
 
-  const formattedNumber = decimalLimit
-    ? num.toFixed(decimalLimit)
-    : num.toString();
+  const formattedNumber = num.toFixed(decimalLimit);
 
   const parts = formattedNumber.split(".");
   parts[0] = parts[0].replace(
