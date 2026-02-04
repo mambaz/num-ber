@@ -45,7 +45,7 @@ describe("##### Number Format #####", function () {
     expect(n.format(1234567)).to.equal("1,234,567");
   });
 
-  it("should format a number with default separators", () => {
+  it("should format a number with default separators and 2 decimals", () => {
     expect(n.format(1234567.828, 2)).to.equal("1,234,567.83");
   });
 
@@ -78,5 +78,33 @@ describe("##### Number Format #####", function () {
     expect(() => {
       n.format("invalid input");
     }).to.throw(Error);
+  });
+
+  it("should format a small number with 0 decimals correctly", () => {
+    expect(n.format(0.0001, 0)).to.equal("0");
+  });
+
+  it("should format 0 value correctly", () => {
+    expect(n.format(0)).to.equal("0");
+  });
+
+  it("should format 0 with decimals correctly", () => {
+    expect(n.format(0, 2)).to.equal("0.00");
+  });
+
+  it("should format negative numbers correctly", () => {
+    expect(n.format(-1234567.5, 2)).to.equal("-1,234,567.50");
+  });
+
+  it("should format negative numbers with 0 decimals", () => {
+    expect(n.format(-9876.54, 0)).to.equal("-9,877");
+  });
+
+  it("should format very large numbers", () => {
+    expect(n.format(999999999999.99, 2)).to.equal("999,999,999,999.99");
+  });
+
+  it("should handle negative decimal places", () => {
+    expect(n.format(1234.5678, -2)).to.equal("1,234.57");
   });
 });
